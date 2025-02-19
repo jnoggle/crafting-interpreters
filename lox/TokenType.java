@@ -47,5 +47,6 @@ enum TokenType {
   VAR,
   WHILE,
 
+  // End of file
   EOF,
 }
