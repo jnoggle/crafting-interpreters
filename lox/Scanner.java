@@ -83,10 +83,24 @@ class Scanner {
           addToken(SLASH);
         }
         break;
+      case ' ':
+      case '\r':
+      case '\t':
+        // Ignore whitespace
+        break;
+      
+      case '\n':
+        line++;
+        break;
       default:
         Lox.error(line, "Unexpected character.");
         break;
     }
+  }
+
+  private char peek() {
+    if (isAtEnd()) return '\0';
+    return source.charAt(current)
   }
 
   private boolean match(char expected) {
