@@ -1,4 +1,4 @@
-package come.craftinginterpreters.lox;
+package com.craftinginterpreters.lox;
 
 enum TokenType {
   // Single-character tokens.
@@ -9,7 +9,7 @@ enum TokenType {
   COMMA,
   DOT,
   MINUS,
-  PLUX,
+  PLUS,
   SEMICOLON,
   SLASH,
   STAR,

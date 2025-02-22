@@ -1,4 +1,4 @@
 default: lox
 
 lox: Lox.java
-	javac Lox.java
+	javac *.java -implicit:none
