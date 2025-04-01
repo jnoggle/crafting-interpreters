@@ -24,7 +24,39 @@ public class Parser {
   }
 
   private Expr expression() {
-    return equality();
+    return ternary();
+  }
+
+  private Expr ternary() {
+    Expr expr = comma();
+
+    if (match(QUESTION_MARK)) {
+      Expr thenBranch = expression();
+
+      consume(COLON, "Expect ':' after the branch of conditional expression.");
+      Expr elseBranch = ternary();
+      expr = new Expr.Ternary(expr, thenBranch, elseBranch);
+    }
+
+    return expr;
+  }
+
+  private Expr comma() {
+    Expr expr = equality();
+
+    while (match(COMMA)) {
+      Token operator = previous();
+
+      if (expr == null) {
+        error(operator, "Missing left-hand operand for ','operator.");
+      }
+
+      Expr right = equality();
+
+      expr = new Expr.Binary(expr, operator, right);
+    }
+
+    return expr;
   }
 
   private Expr equality() {
@@ -32,6 +64,10 @@ public class Parser {
 
     while (match(BANG_EQUAL, EQUAL_EQUAL)) {
       Token operator = previous();
+
+      if (expr == null) {
+        error(operator, "Missing left-hand operand for equality operator.");
+      }
 
       Expr right = comparison();
       expr = new Expr.Binary(expr, operator, right);
@@ -45,6 +81,11 @@ public class Parser {
 
     while (match(GREATER, GREATER_EQUAL, LESS, LESS_EQUAL)) {
       Token operator = previous();
+
+      if (expr == null) {
+        error(operator, "Missing left-hand operand for comparison operator.");
+      }
+
       Expr right = term();
       expr = new Expr.Binary(expr, operator, right);
     }
@@ -57,6 +98,11 @@ public class Parser {
 
     while (match(MINUS, PLUS)) {
       Token operator = previous();
+
+      if (expr == null) {
+        error(operator, "Missing left-hand operand for term operator.");
+      }
+
       Expr right = factor();
       expr = new Expr.Binary(expr, operator, right);
     }
@@ -69,6 +115,11 @@ public class Parser {
 
     while (match(SLASH, STAR)) {
       Token operator = previous();
+
+      if (expr == null) {
+        error(operator, "Missing left-hand operand for factor operator.");
+      }
+
       Expr right = unary();
       expr = new Expr.Binary(expr, operator, right);
     }
