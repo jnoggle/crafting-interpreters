@@ -152,7 +152,7 @@ public class Parser {
       return new Expr.Grouping(expr);
     }
 
-    throw error(peek(), "Expect expressiopn.");
+    throw error(peek(), "Expect expression.");
   }
 
   private boolean match(TokenType... types) {
