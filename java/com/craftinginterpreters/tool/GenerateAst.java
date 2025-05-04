@@ -24,6 +24,12 @@ public class GenerateAst {
         "Ternary: Expr condition, Expr thenBranch, Expr elseBranch"
       )
     );
+
+    defineAst(
+      outputDir,
+      "Stmt",
+      Arrays.asList("Expression: Expr expression", "Print: Expr expression")
+    );
   }
 
   private static void defineAst(
